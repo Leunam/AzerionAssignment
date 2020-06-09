@@ -7,6 +7,7 @@ public class PlayerPlatformerController : PhysicsObject
 
     public float maxSpeed = 4;
     public float jumpTakeOffSpeed = 4;
+    public Joystick joystick;
 
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -22,7 +23,8 @@ public class PlayerPlatformerController : PhysicsObject
     {
         Vector2 move = Vector2.zero;
 
-        move.x = Input.GetAxis("Horizontal");
+        //move.x = Input.GetAxis("Horizontal");
+        move.x = joystick.Horizontal;
 
         if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0)
         {
