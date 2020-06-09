@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerPlatformerController : PhysicsObject
 {
 
-    public float maxSpeed = 4;
-    public float jumpTakeOffSpeed = 4;
+    public float maxSpeed = 1;
+    public float jumpTakeOffSpeed = 1;
     public Joystick joystick;
 
     private SpriteRenderer spriteRenderer;
@@ -24,7 +24,15 @@ public class PlayerPlatformerController : PhysicsObject
         Vector2 move = Vector2.zero;
 
         //move.x = Input.GetAxis("Horizontal");
-        move.x = joystick.Horizontal;
+        
+        if (joystick.Horizontal >= .2f || joystick.Horizontal <= -.2f)
+        {
+            move.x = joystick.Horizontal;
+        }
+        //else if (joystick.Horizontal <= -.2f)
+        //{
+        //    move.x = -maxSpeed;
+        //}
 
         if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0)
         {
@@ -57,7 +65,7 @@ public class PlayerPlatformerController : PhysicsObject
         //    //animator.SetBool("isCharacterIdle", true);
         //    animator.Play("character_idle");
         //}
-        
+
         //if (
         //    (velocity.y > 0 && velocity.x == 0) || 
         //    (velocity.y > 0 && velocity.x < 0) ||
@@ -71,7 +79,8 @@ public class PlayerPlatformerController : PhysicsObject
         //}
 
 
-        if (Input.GetButtonDown("Jump") && grounded)
+        //if (Input.GetButtonDown("Jump") && grounded)
+        if (joystick.Vertical >= .5f && grounded)
         {
 
             velocity.y = jumpTakeOffSpeed;
