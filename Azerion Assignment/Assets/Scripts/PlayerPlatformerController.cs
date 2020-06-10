@@ -34,7 +34,7 @@ public class PlayerPlatformerController : PhysicsObject
         //    move.x = -maxSpeed;
         //}
 
-        if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0)
+        if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0 && grounded)
         {
             animator.SetBool("isCharacterIdle", false);
             animator.SetBool("isCharacterJumping", false);
@@ -79,11 +79,9 @@ public class PlayerPlatformerController : PhysicsObject
         //}
 
 
-        //if (Input.GetButtonDown("Jump") && grounded)
         if (joystick.Vertical >= .5f && grounded)
         {
-
-            velocity.y = jumpTakeOffSpeed;
+                        velocity.y = jumpTakeOffSpeed;
         }
         else if (Input.GetButtonUp("Jump"))
         {
@@ -101,7 +99,7 @@ public class PlayerPlatformerController : PhysicsObject
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
 
-        animator.SetBool("grounded", grounded);
+        //animator.SetBool("grounded", grounded);
         animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
         targetVelocity = move * maxSpeed;
