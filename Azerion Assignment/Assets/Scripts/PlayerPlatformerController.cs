@@ -34,7 +34,7 @@ public class PlayerPlatformerController : PhysicsObject
         //    move.x = -maxSpeed;
         //}
 
-        if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0 && grounded)
+        if (joystick.Horizontal != 0 && grounded)
         {
             animator.SetBool("isCharacterIdle", false);
             animator.SetBool("isCharacterJumping", false);
