@@ -20,6 +20,11 @@ public class PhysicsObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f; //Minimum distance
     protected const float shellRadius = 0.01f; //Some padding to detect the raycasts
 
+    public bool GetGrounded()
+    {
+        return grounded;
+    }
+
     void OnEnable()
     {
         rb2d = GetComponent<Rigidbody2D>();        
