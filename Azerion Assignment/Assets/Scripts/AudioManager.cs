@@ -10,11 +10,25 @@ public class AudioManager : MonoBehaviour
     static AudioManager instance;
 
     public static AudioManager Instance { get { return instance; } }
-    // Start is called before the first frame update
+
+    //Manage instance, so we don't have duplicate instance in the scene when loaded.
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+
     void Start()
     {
-        instance = this;
-
         if (musicPlayer)
             musicPlayer.Play();
     }
