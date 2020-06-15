@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Level01_GUIManager : MonoBehaviour
 {
 
     public GameObject levelCompletedPanel;
+    public TextMeshProUGUI uiCoins;
 
     public void ActivateLevelCompletedPanel()
     {
@@ -17,5 +19,10 @@ public class Level01_GUIManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void UpdateCollectedCoins(int collectedCoins)
+    {
+        uiCoins.text = collectedCoins.ToString();
     }
 }
