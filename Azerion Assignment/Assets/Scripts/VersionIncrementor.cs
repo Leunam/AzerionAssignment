@@ -27,7 +27,6 @@ public class VersionIncrementor
         {
             versionText = versionText.Trim(); //clean up whitespace if necessary
             string[] lines = versionText.Split('.');
-            Debug.Log("lines.length -> " + lines.Length);
 
             if (lines.Length == 2) //This is the Default Unity version number, I recomend to change to next format 0.1.000.buildCodeName for better build control
             {
