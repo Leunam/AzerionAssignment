@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class BulletPooler : MonoBehaviour {
 
-
-    // ==============================
-    // New Method to Pool the Bullets
-    // ==============================
     public static BulletPooler current;
     public GameObject pooledBulletObject;
     public int pooledBulletsAmount = 20;
