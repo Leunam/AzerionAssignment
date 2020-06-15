@@ -33,10 +33,6 @@ public class GunController : MonoBehaviour
 
             bullet = BulletPooler.current.GetPooledObject(false);                // Get a new bullet from the bullets pool
         }
-        //else if (backFire)
-        //{
-        //    bullet = BulletPooler.current.GetPooledObject(true);                // Get a new bullet from the bullets pool
-        //}
 
         if (bullet == null) { return; }
 
