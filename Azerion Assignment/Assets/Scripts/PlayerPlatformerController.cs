@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerPlatformerController : PhysicsObject
 {
@@ -12,7 +10,6 @@ public class PlayerPlatformerController : PhysicsObject
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
-    // Use this for initialization
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -23,16 +20,10 @@ public class PlayerPlatformerController : PhysicsObject
     {
         Vector2 move = Vector2.zero;
 
-        //move.x = Input.GetAxis("Horizontal");
-        
         if (joystick.Horizontal >= .2f || joystick.Horizontal <= -.2f)
         {
             move.x = joystick.Horizontal;
         }
-        //else if (joystick.Horizontal <= -.2f)
-        //{
-        //    move.x = -maxSpeed;
-        //}
 
         if (joystick.Horizontal != 0 && grounded)
         {
@@ -53,31 +44,6 @@ public class PlayerPlatformerController : PhysicsObject
             animator.SetBool("isCharacterWalking", false);
             animator.SetBool("isCharacterJumping", true);
         }
-        //if (velocity.x > 0 || velocity.x < 0)
-        //{
-        //    //animator.SetBool("isCharacterIdle", false);
-        //    //animator.SetBool("isCharacterWalking", true);
-        //    animator.Play("character_walk");
-        //}
-        //else if (velocity.x == 0 )
-        //{
-        //    //animator.SetBool("isCharacterWalking", false);
-        //    //animator.SetBool("isCharacterIdle", true);
-        //    animator.Play("character_idle");
-        //}
-
-        //if (
-        //    (velocity.y > 0 && velocity.x == 0) || 
-        //    (velocity.y > 0 && velocity.x < 0) ||
-        //    (velocity.y > 0 && velocity.x > 0))
-        //{
-        //    Debug.Log("DENTRO");
-        //    //animator.SetBool("isCharacterIdle", false);
-        //    //animator.SetBool("isCharacterJumping", true);
-
-        //    animator.Play("character_jump");
-        //}
-
 
         if (joystick.Vertical >= .5f && grounded)
         {
@@ -98,8 +64,6 @@ public class PlayerPlatformerController : PhysicsObject
         {
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
-
-        animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
         targetVelocity = move * maxSpeed;
     }

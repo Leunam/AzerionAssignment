@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -8,8 +6,8 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset;            //Private variable to store the offset distance between the player and camera
     public float yOffset = 0.5f;
     public PlayerPlatformerController playerController;
-    private bool offsetChanged = false;
-    private bool offsetRestored = false;
+    //private bool offsetChanged = false;
+    //private bool offsetRestored = false;
     void Start()
     {
         //if (!playerController)

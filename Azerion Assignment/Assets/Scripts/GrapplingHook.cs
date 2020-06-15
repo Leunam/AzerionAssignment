@@ -1,108 +1,84 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class GrapplingHook : MonoBehaviour
 {
-    public LineRenderer line;
-    DistanceJoint2D joint;
+    public LineRenderer lineRenderer;
+    DistanceJoint2D distanceJoint;
     Vector3 targetPos;
-    RaycastHit2D hit;
+    private RaycastHit2D hit;
     public float distance = 10f;
     public LayerMask mask;
     public float step = 0.2f;
     public Joystick joystick;
 
     private bool hookPressed = false;
-
-
+    private bool hanging = false;
 
     void Start()
     {
-        joint = GetComponent<DistanceJoint2D>();
-        joint.enabled = false;
-        line.enabled = false;
+        distanceJoint = GetComponent<DistanceJoint2D>();
+        distanceJoint.enabled = false;
+        lineRenderer.enabled = false;
     }
 
+    /// <summary>
+    /// Called by Event Triggers
+    /// </summary>
     public void HookButtonDown()
     {
         hookPressed = true;
     }
 
+    /// <summary>
+    /// Called by Event Triggers
+    /// </summary>
     public void HookButtonUp()
     {
         hookPressed = false;
+        hanging = false;                //Flag bool to false to Character can Shoot again the Grappling Hook
     }
-
-
 
     void Update()
     {
 
-        if (joint.distance > 1f)
-            joint.distance -= step;
-        //else
-        //{
-        //    line.enabled = false;
-        //    joint.enabled = false;
+        if (distanceJoint.distance > 1f)
+            distanceJoint.distance -= step;
 
-        //}
         float joystickMagnitude = joystick.Direction.magnitude;
-        //Debug.Log("joystickMagnitude > " + joystickMagnitude.ToString());
 
         float angleToJoystick = Mathf.Atan2(joystick.Direction.x, joystick.Direction.y) ;
-        Debug.Log("Joystick Angle -> " + angleToJoystick);
 
-        if (hookPressed)
+        if (hookPressed && !hanging)
         {
-            Debug.Log("Hook button down");
-            targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPos.z = 0;
-
-            //hit = Physics2D.Raycast(transform.position, targetPos - transform.position, distance, mask);
             hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Sin(angleToJoystick), Mathf.Cos(angleToJoystick)), distance, mask);
 
-            if (hit)
-                Debug.DrawRay(transform.position, new Vector2(hit.transform.position.x, hit.transform.position.y));
-            
             if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null)
             {
-                joint.enabled = true;
-                //	Debug.Log (hit.point - new Vector2(hit.collider.transform.position.x,hit.collider.transform.position.y);
-                Vector2 connectPoint = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
-                connectPoint.x = connectPoint.x / hit.collider.transform.localScale.x;
-                connectPoint.y = connectPoint.y / hit.collider.transform.localScale.y;
-                //Debug.Log(connectPoint);
-                joint.connectedAnchor = connectPoint;
+                hanging = true;
+                distanceJoint.enabled = true;
+                
+                distanceJoint.connectedAnchor = hit.point;
 
-                joint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
-                //joint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x,hit.collider.transform.position.y);
-                joint.distance = Vector2.Distance(transform.position, hit.point);
+                distanceJoint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
+                distanceJoint.distance = Vector2.Distance(transform.position, hit.point);
 
-                line.enabled = true;
-                line.SetPosition(0, transform.position);
-                line.SetPosition(1, hit.point);
+                lineRenderer.enabled = true;
+                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(1, hit.point);
 
-                line.GetComponent<RopeRatio>().grabPos = hit.point;
-
-                line.SetPosition(1, joint.connectedBody.transform.TransformPoint(joint.connectedAnchor));
+                lineRenderer.GetComponent<RopeRatio>().grabPos = hit.point;
             }
-            
         }
         
-
-        //if (Input.GetMouseButton(0))
-        //{
-
-        //    line.SetPosition(0, transform.position);
-        //}
-
+        if (hookPressed)
+        {
+            lineRenderer.SetPosition(0, transform.position);
+         }
 
         if (!hookPressed)
         {
-            joint.enabled = false;
-            line.enabled = false;
-            Debug.Log("Hook button up");
+            distanceJoint.enabled = false;  //Disable the Distance Joint
+            lineRenderer.enabled = false;   //Disable the Line Renderer
         }
-
     }
 }
